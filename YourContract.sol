@@ -12,10 +12,14 @@ contract YourContract is Ownable {
     // Declaration of gameNumber: -----------------------------------------------------------------------------------
 
     uint public gameNumber = 1;
+    uint public initFee = 10000000000;
+    uint public feesPending = 0;
 
     // Unimportant to my issue:
 
     event SetPurpose(address sender, string purpose);
+
+    event IncGameNumber(uint gameNumber);
 
     string public purpose = "Building Unstoppable Apps!!!";
 
@@ -30,6 +34,11 @@ contract YourContract is Ownable {
         purpose = newPurpose;
         console.log(msg.sender,"set purpose to",purpose);
         emit SetPurpose(msg.sender, purpose);
+    }
+
+    function incGameNumber() public {
+        gameNumber++;
+        emit IncGameNumber(gameNumber);
     }
 
     // Structs 

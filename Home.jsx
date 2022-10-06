@@ -29,15 +29,18 @@ function Home({
   // gameNumber import ---------------------------------------------------------------------------------------------
 
   const gameNumber = useContractReader(readContracts, "YourContract", "gameNumber");
+  
 
   // ---------------------------------------------------------------------------------------------------------------
   
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
   const [newPurpose, setNewPurpose] = useState("loading...");
-  const [newGameNumber, setGameNumber] = useState("loading...");
   const [amountToSend, setAmount] = useState('.1');
   
-    
+  function print() {
+    console.log(gameNumber?.toString());
+  }  
+
   return (
     <div>  
       {/* setPurpose and render purpose --------------------------------------------------------------------*/}
@@ -117,6 +120,11 @@ function Home({
         <Radio value={'.5'}>.5 Ether</Radio>
         <Radio value={'1'}>1 Ether</Radio>
       </Radio.Group>
+
+      <button onClick={print}>Print</button>
+
+      <h1>{gameNumber?.toString()}</h1>
+
     </div>
   );
 }
