@@ -12,10 +12,9 @@ contract YourContract is Ownable {
     // Declaration of gameNumber: -----------------------------------------------------------------------------------
 
     uint public gameNumber = 1;
-    uint public initFee = 10000000000;
+    uint public initFee = 1000000000000000;
     uint public feesPending = 0;
 
-    // Unimportant to my issue:
 
     event SetPurpose(address sender, string purpose);
 
@@ -36,10 +35,11 @@ contract YourContract is Ownable {
         emit SetPurpose(msg.sender, purpose);
     }
 
-    function incGameNumber() public {
+    function incGameNumber() internal {
         gameNumber++;
         emit IncGameNumber(gameNumber);
     }
+
 
     // Structs 
     struct Game {
@@ -78,21 +78,27 @@ contract YourContract is Ownable {
 
     // ------------------------------------ Functions to enable new games --------------------------------------
 
-    function initializeGame(uint buyinReq) public payable {
-        require(msg.value == initFee, "In order to prevent spam games that never resolve, each game initialization will cost  ether.");
-        feesPending += msg.value;
+    function initializeGame(uint buyinReq, uint initFee) public {
+        require(initFee == 1000000000000000, "In order to prevent spam games that never resolve, each game initialization will cost  ether.");
+        addFeesPending(initFee);
         idToGame[gameNumber] = Game(msg.sender, gameNumber, buyinReq, 0, 0, 0, 0, 0, false);
         games.push(idToGame[gameNumber]);
-        gameNumber++;
+        incGameNumber();
     }    
+
+    function addFeesPending(uint initFee) internal {
+        feesPending += initFee;
+    }
 
     // ------------------------------------------ Buyin Functions ----------------------------------------------
 
-     function buyin(string memory name, uint id) public payable {
+     function buyin(string memory name, uint id, uint buyinAmount) public payable {
+        buyinAmount = msg.value;
         require (idToGame[id].endedBuyin != true, "The game you are attempting to join is either in process or has already been completed.");
         require (playerInfo[msg.sender].gameId == 0, "You must complete current game before buying into another.");
         require (idToGame[id].host != 0x0000000000000000000000000000000000000000, "You are attempting to join a game that has not been initialized.");
-        require (msg.value >= idToGame[id].buyinRequirement, "Check the minumum buyin requirement, it appears it is higher than your deposit!");
+        require (buyinAmount >= idToGame[id].buyinRequirement, "Check the minumum buyin requirement, it appears it is higher than your deposit!");
+        payable(this).transfer(buyinAmount);
         playerInfo[msg.sender] = Player(name, id, msg.value, 0, false, false, false);
         players.push(playerInfo[msg.sender]);
         idToGame[id].playerCount++;
