@@ -71,7 +71,15 @@ function Game({
         <Button
           style={{ marginTop: 8 }}
           onClick={async () => {     
-          {/* Function I am having some trouble with: */}    
+          {/* Function I am having some trouble with: 
+            
+          Basically, in the case I initialize a game with a required buyin of 1 ether, I hardcoded the 
+          button function below so that when clicked, it should work, due to "10000000000000000000" being 
+          >= to the buyinRequirement I have set. Not sure what the deal is, as well as why the second 
+          param works as just 1, where I need to have a big number in the third.
+            
+        
+        */}    
             const result = tx(writeContracts.YourContract.buyin("Josh", "1", "10000000000000000000"
             ), update => {
                 console.log("📡 Transaction Update:", update);
