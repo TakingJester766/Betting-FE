@@ -72,7 +72,7 @@ function Game({
           style={{ marginTop: 8 }}
           onClick={async () => {     
           {/* Function I am having some trouble with: */}    
-            const result = tx(writeContracts.YourContract.buyin("Josh", 1, utils.parseEther(`1`)
+            const result = tx(writeContracts.YourContract.buyin("Josh", "1", "10000000000000000000"
             ), update => {
                 console.log("📡 Transaction Update:", update);
                   if (update && (update.status === "confirmed" || update.status === 1)) {
