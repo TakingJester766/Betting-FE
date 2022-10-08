@@ -93,8 +93,7 @@ function Game({
                     console.log("awaiting metamask/web3 confirm result...", result);
                     console.log(await result);
                     }}>Join Game</Button>    
-                  </div>
-                <button onClick={print}>Print</button>  
+          </div>
     </div>
   );
 }
